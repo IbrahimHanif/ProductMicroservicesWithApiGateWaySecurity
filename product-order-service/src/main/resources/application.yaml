@@ -1,0 +1,48 @@
+spring:
+  cloud:
+    bus:
+      enabled: true
+      destination: configXchangebus
+  application:
+    name: product-order-service
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:productDb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: null
+    driver-class-name: org.h2.Driver
+  sleuth:
+    trace-id128: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411/
+  rabbitmq:
+    host: localhost
+    port: 5672
+
+
+server:
+  port: 9200
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 5
+    preferIpAddress: true
+    metadata-map:
+      zone: A
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    prefer-same-zone-eureka: true
+    serviceUrl:
+      defaultZone: ${product-order-service.eureka.url:http://localhost:9000/eureka}  
+ 
+
+
